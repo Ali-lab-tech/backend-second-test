@@ -22,8 +22,11 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string'
         ]);
-        $data = $request->all() + ['user_id' => Auth::id()];
-        $product = Product::create($data);
+        $product = Product::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'user_id' => Auth::id(),
+        ]);
         return response()->json(['products' => $product], Response::HTTP_CREATED);
     }
 }
