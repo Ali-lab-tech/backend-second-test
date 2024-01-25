@@ -14,13 +14,13 @@ class AuthController extends Controller
     /**
      * Create User
      * @param Request $request
-     * @return User 
+     * @return User
      */
-    public function createUser(Request $request)
+    public function register(Request $request)
     {
         try {
             //Validated
-            $validateUser = Validator::make($request->all(), 
+            $validateUser = Validator::make($request->all(),
             [
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email',
@@ -60,10 +60,10 @@ class AuthController extends Controller
      * @param Request $request
      * @return User
      */
-    public function loginUser(Request $request)
+    public function login(Request $request)
     {
         try {
-            $validateUser = Validator::make($request->all(), 
+            $validateUser = Validator::make($request->all(),
             [
                 'email' => 'required|email',
                 'password' => 'required'
@@ -98,5 +98,16 @@ class AuthController extends Controller
                 'message' => $th->getMessage()
             ], 500);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            $user->tokens()->delete();
+        }
+
+        return response()->json(['message' => 'Logged out successfully']);
     }
 }

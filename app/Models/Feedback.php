@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Feedback extends Model
 {
     use HasFactory;
-    protected $table = 'feedbacks'; 
+    protected $table = 'feedbacks';
     protected $fillable = ['title', 'description', 'category','feedback_user_id','product_id'];
 
     protected $casts = [
-        'category' => 'string', 
+        'category' => 'string',
     ];
 
      // Add any additional methods or relationships here
@@ -23,10 +23,9 @@ class Feedback extends Model
      protected static function boot()
      {
          parent::boot();
- 
          static::creating(function ($feedback) {
-             // Set the user_id attribute before creating the feedback
              $feedback->feedback_user_id = Auth::id();
+             $feedback->user_id = Auth::id();
          });
      }
     public function user()

@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $feedbacks = Feedback::with('user','comments.user')->paginate(10);

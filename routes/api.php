@@ -22,12 +22,14 @@ use App\Http\Controllers\UserController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/register', [AuthController::class, 'createUser']);
-Route::post('/login', [AuthController::class, 'loginUser'])->name('login');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
 Route::middleware('auth:sanctum')->group( function () {
     Route::resource('feedbacks', FeedbackController::class)->only(['index', 'store']);
     Route::resource('products', ProductController::class);
     Route::resource('comments', CommentController::class)->only(['index', 'store']);
     Route::get('/users/search', [UserController::class, 'search']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
